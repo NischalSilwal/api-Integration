@@ -1,8 +1,14 @@
 import { Student } from '../types/student';
 
+export const API_CONFIG = {
+  BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  STUDENT_URL: process.env.NEXT_PUBLIC_API_URL,
+  TIMEOUT: 10000, // 10 seconds
+} as const;
+
 export async function fetchStudents(): Promise<Student[]> {
   try {
-    const response = await fetch('http://localhost:5112/api/students', {
+    const response = await fetch(API_CONFIG.STUDENT_URL!, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -18,7 +24,7 @@ export async function fetchStudents(): Promise<Student[]> {
 
 export async function addStudent(student: Omit<Student, 'studentId'>): Promise<Student> {
   try {
-    const response = await fetch('http://localhost:5112/api/students', {
+    const response = await fetch(API_CONFIG.STUDENT_URL!, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(student),
